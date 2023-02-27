@@ -15,8 +15,35 @@
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       hpkgs = pkgs.haskell.packages.ghc943.override {
-        overrides = hold: hnew: {
+        overrides = hnew: hold: {
           yesod-keter-nix = hnew.callCabal2nix "yesod-keter-nix" ./. { };
+          http-api-data = pkgs.haskell.lib.doJailbreak (hnew.callHackageDirect {
+                pkg = "http-api-data";
+                ver = "0.5";
+                sha256 = "sha256-f0Igdb4EjJEEuuRE6rZ1iN44B1pCOp8dL/hoIulPcMU=";
+          } {});
+          postgresql-simple = hnew.callHackageDirect {
+                pkg = "postgresql-simple";
+                ver = "0.6.5";
+                sha256 = "sha256-SRMDtXEBp+4B4/kESdsVT0Ul6AWd1REsSrvIP0WCEOw=";
+                } {};
+          persistent = hnew.callHackageDirect {
+                pkg = "persistent";
+                ver = "2.14.4.4";
+                sha256 = "sha256-ytxLFmkJD/ch/vkRRlGoOA+UxdRBO7Pv2PgbhF5sDwk=";
+                } {};
+          persistent-test = hnew.callHackageDirect {
+                pkg = "persistent-test";
+                ver = "2.13.1.3";
+                sha256 = "sha256-gb0YcyTM6SMdVhnMTwQD1aXQp/GJ8LjaFwzbHX5k49s=";
+                } {};
+          hjsmin = pkgs.haskell.lib.dontCheck (hnew.callHackageDirect {
+                pkg = "hjsmin";
+                ver = "0.2.1";
+                sha256 = "sha256-XqjXEvFYuK0Emd3Zweug3Gy1/u7W8mD4kjpVtZR3F4g=";
+          } {});
+          chell = pkgs.haskell.lib.doJailbreak hold.chell;
+          persistent-qq = pkgs.haskell.lib.dontCheck hold.persistent-qq;
         };
       };
     in
