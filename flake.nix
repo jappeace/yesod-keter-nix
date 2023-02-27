@@ -21,7 +21,7 @@
       };
     in
     {
-      defaultPackage.x86_64-linux =  hpkgs.template-project;
+      defaultPackage.x86_64-linux =  hpkgs.yesod-keter-nix;
       devShell.x86_64-linux = hpkgs.shellFor {
         packages = ps : [ ps."yesod-keter-nix" ];
         withHoogle = true;
