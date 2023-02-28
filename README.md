@@ -4,6 +4,7 @@
 
 This is an exmple of how to nixify a yesod
 app and how to run it in keter.
+The app itself is the [yesod postgres template](https://github.com/yesodweb/yesod-scaffold/tree/postgres)
 
 run the example with
 
