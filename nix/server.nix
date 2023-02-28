@@ -1,12 +1,31 @@
 {yesod-app}: { config, pkgs, ... }: {
+
+    environment.extraInit = ''
+    mkdir -p /static
+    '';
     services.postgresql = {
       enable = true;
       package = pkgs.postgresql_12;
       initialScript = pkgs.writeText "psql-init" ''
-        CREATE USER PROJECTNAME_LOWER WITH SUPERUSER PASSWORD 'PROJECTNAME';
-        CREATE DATABASE PROJECTNAME_LOWER WITH OWNER PROJECTNAME_LOWER;
+        CREATE USER username WITH SUPERUSER PASSWORD 'hunter42';
+        CREATE DATABASE db WITH OWNER username;
       '';
     };
+
+  systemd.services.logs = {
+    description = "logs";
+    after = [ "keter.service" ];
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      export YESOD_PORT=7999
+      export YESOD_STATIC_DIR=/static
+      export YESOD_PGDATABASE=db;
+      export YESOD_PGPASS=hunter42;
+      export YESOD_PGUSER=username;
+      ${yesod-app}/bin/PROJECTNAME ${../backend/config/settings.yml}
+      tail -F /var/lib/keter/log/test-bundle/current.log -n 0
+    '';
+  };
     services.keter = {
       enable = true;
 
@@ -19,8 +38,18 @@
       bundle = {
         appName = "test-bundle";
         domain = "localhost";
+        publicScript = ''
+          export YESOD_PORT=$PORT
+          export YESOD_STATIC_DIR=/static
+        '';
+        # TODO don't put the pass in the nix store ;)
+        secretScript = ''
+          export YESOD_PGDATABASE=db;
+          export YESOD_PGPASS=hunter42;
+          export YESOD_PGUSER=username;
+        '';
         executable = pkgs.writeShellScript "run" ''
-          ${yesod-app}/bin/PROJECTNAME $PORT
+          ${yesod-app}/bin/PROJECTNAME ${../backend/config/settings.yml}
         '';
       };
     };
