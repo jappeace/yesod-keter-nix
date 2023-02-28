@@ -55,11 +55,10 @@
           testScript = ''
             server.start()
             server.wait_for_unit("postgresql.service")
-            server.wait_for_console_text("error, called at")
+            server.wait_for_open_port(8000)
+            server.wait_for_console_text("Activating app test-bundle with hosts: localhost")
             server.succeed("curl --fail http://localhost:8000/")
           '';
-      #       server.wait_for_open_port(8000)
-      #       server.wait_for_console_text("Activating app test-bundle with hosts: localhost")
       };
       devShell.x86_64-linux = hpkgs.shellFor {
         packages = ps : [ ps."yesod-keter-nix" ];
