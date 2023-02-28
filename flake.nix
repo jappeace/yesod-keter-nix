@@ -49,6 +49,15 @@
     in
     {
       defaultPackage.x86_64-linux =  hpkgs.yesod-keter-nix;
+      example = pkgs.nixosTest {
+          name = "keter-nix-example";
+          nodes.server = ./nix/server.nix;
+          testScript = ''
+            server.start()
+            server.wait_for_unit("postgresql.service")
+            };
+          '';
+      };
       devShell.x86_64-linux = hpkgs.shellFor {
         packages = ps : [ ps."yesod-keter-nix" ];
         withHoogle = true;
