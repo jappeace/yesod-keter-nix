@@ -18,3 +18,7 @@ It's moved to backend so nix changes don't cause a recompilation.
 
 
 Contact me if you need help.
+
+# License
+
+MIT
