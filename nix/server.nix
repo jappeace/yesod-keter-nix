@@ -12,20 +12,6 @@
       '';
     };
 
-  systemd.services.logs = {
-    description = "logs";
-    after = [ "keter.service" ];
-    wantedBy = [ "multi-user.target" ];
-    script = ''
-      export YESOD_PORT=7999
-      export YESOD_STATIC_DIR=/static
-      export YESOD_PGDATABASE=db;
-      export YESOD_PGPASS=hunter42;
-      export YESOD_PGUSER=username;
-      ${yesod-app}/bin/PROJECTNAME ${../backend/config/settings.yml}
-      tail -F /var/lib/keter/log/test-bundle/current.log -n 0
-    '';
-  };
     services.keter = {
       enable = true;
 
