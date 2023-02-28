@@ -49,14 +49,15 @@
     in
     {
       defaultPackage.x86_64-linux =  hpkgs.yesod-keter-nix;
-      example = pkgs.nixosTest {
+      packages.x86_64-linux.example = pkgs.nixosTest {
           name = "keter-nix-example";
-          nodes.server = ./nix/server.nix;
+          nodes.server = import ./nix/server.nix { yesod-app = hpkgs.yesod-keter-nix; } ;
           testScript = ''
             server.start()
             server.wait_for_unit("postgresql.service")
+            server.wait_for_open_port(8000)
+            server.wait_for_console_text("Activating app test-bundle with hosts: localhost")
             server.succeed("curl --fail http://localhost:8000/")
-            };
           '';
       };
       devShell.x86_64-linux = hpkgs.shellFor {

@@ -1,4 +1,12 @@
-{ config, pkgs, ... }: {
+{yesod-app}: { config, pkgs, ... }: {
+    services.postgresql = {
+      enable = true;
+      package = pkgs.postgresql_12;
+      initialScript = pkgs.writeText "psql-init" ''
+        CREATE USER PROJECTNAME_LOWER WITH SUPERUSER PASSWORD 'PROJECTNAME';
+        CREATE DATABASE PROJECTNAME_LOWER WITH OWNER PROJECTNAME_LOWER;
+      '';
+    };
     services.keter = {
       enable = true;
 
@@ -12,8 +20,8 @@
         appName = "test-bundle";
         domain = "localhost";
         executable = pkgs.writeShellScript "run" ''
-          ${pkgs.haskell.packages.ghc943.yesod-keter-nix}/bin/PROJECTNAME $PORT
+          ${yesod-app}/bin/PROJECTNAME $PORT
         '';
       };
     };
-  };
+  }
