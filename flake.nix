@@ -16,7 +16,7 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       hpkgs = pkgs.haskell.packages.ghc943.override {
         overrides = hnew: hold: {
-          yesod-keter-nix = hnew.callCabal2nix "yesod-keter-nix" ./. { };
+          yesod-keter-nix = hnew.callCabal2nix "yesod-keter-nix" backend/. { };
           http-api-data = pkgs.haskell.lib.doJailbreak (hnew.callHackageDirect {
                 pkg = "http-api-data";
                 ver = "0.5";
@@ -55,10 +55,11 @@
           testScript = ''
             server.start()
             server.wait_for_unit("postgresql.service")
-            server.wait_for_open_port(8000)
-            server.wait_for_console_text("Activating app test-bundle with hosts: localhost")
+            server.wait_for_console_text("error, called at")
             server.succeed("curl --fail http://localhost:8000/")
           '';
+      #       server.wait_for_open_port(8000)
+      #       server.wait_for_console_text("Activating app test-bundle with hosts: localhost")
       };
       devShell.x86_64-linux = hpkgs.shellFor {
         packages = ps : [ ps."yesod-keter-nix" ];
