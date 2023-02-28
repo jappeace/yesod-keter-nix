@@ -55,6 +55,7 @@
           testScript = ''
             server.start()
             server.wait_for_unit("postgresql.service")
+            server.succeed("curl --fail http://localhost:8000/")
             };
           '';
       };

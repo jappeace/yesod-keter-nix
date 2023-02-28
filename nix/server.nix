@@ -5,7 +5,7 @@
       globalKeterConfig = {
         listeners = [{
           host = "*4";
-          inherit port;
+          port = 8000;
         }];
       };
       bundle = {
