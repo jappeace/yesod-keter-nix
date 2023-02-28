@@ -20,3 +20,5 @@ cabal.sandbox.config
 *~
 \#*
 PROJECTNAME.cabal
+
+result
