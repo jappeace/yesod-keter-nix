@@ -20,6 +20,14 @@ It's moved to backend so nix changes don't cause a recompilation.
 
 Contact me if you need help.
 
+# Notes
+
++ The settings file in backend/config/keter.yml is ignored by the nix expression
+  in the standard template.
+  I deleted it in this to reflect that.
++ I removed the upper bounds of the app. Nix does pinning of versions. 
+  doing this as well in the package.yaml results in a lot of extra work.
+
 # License
 
 MIT
