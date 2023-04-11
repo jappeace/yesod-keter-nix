@@ -4,7 +4,7 @@
   description = "My Haskell project";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:jappeace/nixpkgs/upgrade-keter-2.1";
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -14,6 +14,8 @@
   outputs = { self, nixpkgs, flake-compat }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      # TODO upgrade keter 2.1
+      # use modified nixkpgs with new changes
       hpkgs = pkgs.haskell.packages.ghc943.override {
         overrides = hnew: hold: {
           yesod-keter-nix = hnew.callCabal2nix "yesod-keter-nix" backend/. { };
@@ -27,6 +29,11 @@
                 ver = "0.6.5";
                 sha256 = "sha256-SRMDtXEBp+4B4/kESdsVT0Ul6AWd1REsSrvIP0WCEOw=";
                 } {};
+          keter = hnew.callCabal2nix "keter"
+              (builtins.fetchGit {
+                 url = "https://github.com/snoyberg/keter";
+                 rev = "f9f384b565221eaf6f8bc022ad3efed7fe59ba04";
+              }) {};
           persistent = hnew.callHackageDirect {
                 pkg = "persistent";
                 ver = "2.14.4.4";

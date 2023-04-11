@@ -18,16 +18,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1676549890,
-        "narHash": "sha256-sq/WcOEAl7gWrrfGkWdnyYazRyTf+enEim/o6LOQzI8=",
-        "owner": "nixos",
+        "lastModified": 1681220314,
+        "narHash": "sha256-v1LaVVmhRA1CdeKMwTvaGjcJDgBKtP7uTr+aWwOp7yQ=",
+        "owner": "jappeace",
         "repo": "nixpkgs",
-        "rev": "8c66bd1b68f4708c90dcc97c6f7052a5a7b33257",
+        "rev": "8042322a15aa5b110e5b1e7c14dc2a6539e4ff25",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixpkgs-unstable",
+        "owner": "jappeace",
+        "ref": "upgrade-keter-2.1",
         "repo": "nixpkgs",
         "type": "github"
       }
