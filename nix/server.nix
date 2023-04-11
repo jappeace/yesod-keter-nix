@@ -1,4 +1,4 @@
-{yesod-app}: { config, pkgs, ... }: {
+{yesod-app, keter}: { config, pkgs, ... }: {
 
     environment.extraInit = ''
     mkdir -p /static
@@ -14,6 +14,7 @@
 
     services.keter = {
       enable = true;
+      keterPackage = keter;
 
       globalKeterConfig = {
         listeners = [{
