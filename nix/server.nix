@@ -20,6 +20,7 @@
           host = "*4";
           port = 8000;
         }];
+        rotate-logs = false;
       };
       bundle = {
         appName = "test-bundle";
